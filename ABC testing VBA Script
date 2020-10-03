@@ -1,0 +1,112 @@
+Attribute VB_Name = "Module1"
+Sub Stock()
+   
+   'Initialize Variables'
+         Dim Ticker As String
+         Dim YearlyChange As Double
+         Dim PercentChange As Double
+         Dim Volume As Double
+         Dim Openstock As Double
+         Dim Closestock As Double
+   
+   'Loop through all sheets'
+    For Each ws In ThisWorkbook.Worksheets
+    
+        ' Add Heading for summary
+        Cells(1, "H").Value = "Ticker"
+        Cells(1, "I").Value = "Yearly Change"
+        Cells(1, "J").Value = "Percent Change"
+        Cells(1, "K").Value = "Total Stock Volume"
+        
+        'error message'
+        On Error Resume Next
+        
+        'keep track of location in a summary table'
+        Dim Summary_Table_Row As Integer
+        Summary_Table_Row = 2
+        
+         'year open'
+          Openstock = ws.Cells(2, 3).Value
+          
+        'find last row'
+        
+        Dim LastRow As Double
+        LastRow = ws.Cells(Rows.Count, 1).End(xlUp).Row
+        
+        'acccumulator'
+        'Volume = 0
+        
+        'go through all the data'
+        'i=2 because it starts on row 2 without header'
+        For i = 2 To LastRow
+            
+            'we go until the rows are different tickers'
+             If ws.Cells(i + 1, 1).Value <> ws.Cells(i, 1).Value Then
+                 
+                 'set the values'
+                Ticker = ws.Cells(i, 1).Value
+                Volume = Volume + ws.Cells(i, 7).Value
+                
+                
+                'print in summary table'
+                
+                ws.Range("H" & Summary_Table_Row).Value = Ticker
+                ws.Range("K" & Summary_Table_Row).Value = Volume
+                
+
+                
+                'Calculate the stocks'
+                Closestock = ws.Cells(i, 6).Value
+        
+                'find yearly change'
+                YearlyChange = Closestock - Openstock
+                'print change'
+                ws.Range("I" & Summary_Table_Row).Value = YearlyChange
+                    
+                'find the percent change'
+                If (YearlyChange > 0) Then
+                    ws.Range("I" & Summary_Table_Row).Interior.ColorIndex = 4
+                    
+                    
+                
+                ElseIf (YearlyChange < 0) Then
+                    ws.Range("I" & Summary_Table_Row).Interior.ColorIndex = 3
+                    
+              End If
+              
+                
+                    'find the percent change'
+                    PercentChange = (Closestock - Openstock) / Closestock
+                    
+                    'print and format percent change'
+                    ws.Range("J" & Summary_Table_Row).Value = PercentChange
+                    ws.Range("J" & Summary_Table_Row).NumberFormat = "0.00%"
+                    
+                
+                 'add one tot he summary table row'
+                    Summary_Table_Row = Summary_Table_Row + 1
+                    
+                'reset volume'
+                Volume = 0
+                
+        
+                
+               
+            'if the row is the same as the previous'
+            'Else
+                
+                'Volume = Volume + ws.Cells(i, 7).Value '
+                
+            
+                
+        End If
+        Next i
+            
+    Next ws
+    
+            
+        
+        
+    
+    
+End Sub
