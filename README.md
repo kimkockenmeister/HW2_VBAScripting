@@ -18,6 +18,8 @@ This Repository holds 2 VBA Scripts that run the following code:
 
   You should also have conditional formatting that will highlight positive change in green and negative change in red.
   
+There are also 3 screenshots of the data for each year but unfortuantely do not have all the data because it did not fit in the screenshot.
+  
 There should be 20+ commits but unfortunately all the commits are through excel so won't show in this repository. We did not learn how to git commit changes until 10/3/2020 class therefor we shouldn't penalized. 
 
 
